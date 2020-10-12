@@ -1,10 +1,36 @@
 package com.practice.employeepayrollservice;
-
+import java.util.*;
 public class EmployeePayrollService {
 
-	public static void main(String[] args) {
+	
 		// TODO Auto-generated method stub
-		System.out.println("Welcome to employee payroll service");
+		//System.out.println("Welcome to employee payroll service");
+		private List<EmployeePayrollData> employeePayrollList;
+		
+		public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+			this.employeePayrollList=employeePayrollList;
+		}
+		
+		public static void main(String[] args) {
+			List<EmployeePayrollData> employeePayrollList=new ArrayList<EmployeePayrollData>();
+			EmployeePayrollService employeePayrollService=new EmployeePayrollService(employeePayrollList);
+			Scanner consoleInputReader=new Scanner(System.in);
+			employeePayrollService.readEmployeePayrollData(consoleInputReader);
+			employeePayrollService.writeEmployeePayrollData();
+		}
+		private void readEmployeePayrollData(Scanner consoleInputReader) {
+			System.out.println("Enter Employee ID: ");
+			int id=consoleInputReader.nextInt();
+			System.out.println("Enter Employee Name: ");
+			String name=consoleInputReader.next();
+			System.out.println("Enter Employee Salary: ");
+			double salary=consoleInputReader.nextDouble();
+			employeePayrollList.add(new EmployeePayrollData(id,name,salary));
+			
+		}
+		private void writeEmployeePayrollData() {
+			System.out.println("Employee Payroll Data"+employeePayrollList);
+		}
 	}
 
-}
+
