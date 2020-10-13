@@ -47,4 +47,11 @@ public class FileTest {
 		Files.newDirectoryStream(playPath, path -> path.toFile().isFile() && path.toString().startsWith("t"))
 				.forEach(System.out::println);
 	}
+
+	@Test
+	public void givenADirectoryWhenWatchedListsAllTheActivities() throws IOException {
+		Path dir = Paths.get(Home + "/" + PLAY_WITH_NIO);
+		Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+		new WatchServiceDemo(dir).processEvents();
+	}
 }

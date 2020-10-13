@@ -2,35 +2,60 @@ package com.practice.employeepayrollservice;
 import java.util.*;
 public class EmployeePayrollService {
 
-	
-		// TODO Auto-generated method stub
-		//System.out.println("Welcome to employee payroll service");
-		private List<EmployeePayrollData> employeePayrollList;
+	public enum IOService {
+		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
+	}
+
+	private List<EmployeePayrollData> employeePayrollList;
+
+	public EmployeePayrollService() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+		this.employeePayrollList = employeePayrollList;
+	}
+
+	public void readData(Scanner sc) {
+		System.out.println("Enter Employee ID : ");
+		int id = sc.nextInt();
+		System.out.println("Enter Employee Name : ");
+		String name = sc.next();
+		System.out.println("Enter Employee Salary : ");
+		double salary = sc.nextDouble();
+		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
+	}
+
+	public void writeData(IOService iOService) {
+		if(iOService.equals(IOService.CONSOLE_IO)) {
+		System.out.println("Writing Employee Payroll Details To The Console : ");
+		System.out.println(employeePayrollList);
+		}
+		else if(iOService.equals(IOService.FILE_IO))
+		{
+			new EmployeePayrollFileIOService().writeDataInFile(employeePayrollList);
+		}
+	}
+
+	public static void main(String[] args) {
+		ArrayList<EmployeePayrollData> empdetailslist = new ArrayList<>();
+		EmployeePayrollService EPS = new EmployeePayrollService(empdetailslist);
+		Scanner sc = new Scanner(System.in);
+		EPS.readData(sc);
 		
-		public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
-			this.employeePayrollList=employeePayrollList;
+	}
+
+	public long countEntries(IOService fileIo) {
+		if(fileIo.equals(IOService.CONSOLE_IO))
+		{
+			return employeePayrollList.size();
 		}
-		
-		public static void main(String[] args) {
-			List<EmployeePayrollData> employeePayrollList=new ArrayList<EmployeePayrollData>();
-			EmployeePayrollService employeePayrollService=new EmployeePayrollService(employeePayrollList);
-			Scanner consoleInputReader=new Scanner(System.in);
-			employeePayrollService.readEmployeePayrollData(consoleInputReader);
-			employeePayrollService.writeEmployeePayrollData();
+		else if(fileIo.equals(IOService.FILE_IO))
+		{
+			return new EmployeePayrollFileIOService().countEntriesFromFile();
 		}
-		private void readEmployeePayrollData(Scanner consoleInputReader) {
-			System.out.println("Enter Employee ID: ");
-			int id=consoleInputReader.nextInt();
-			System.out.println("Enter Employee Name: ");
-			String name=consoleInputReader.next();
-			System.out.println("Enter Employee Salary: ");
-			double salary=consoleInputReader.nextDouble();
-			employeePayrollList.add(new EmployeePayrollData(id,name,salary));
-			
-		}
-		private void writeEmployeePayrollData() {
-			System.out.println("Employee Payroll Data"+employeePayrollList);
-		}
+		else return 0;
+	}
 	}
 
 
